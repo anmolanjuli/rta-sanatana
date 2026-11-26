@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>अध्याय — ऋत अध्ययन पत्रिका</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="page-chapter">
+
+  <!-- पठन प्रगति रेखा -->
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress-bar" id="progress-bar"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="ऋत गृहपृष्ठमा फर्कनुहोस्">
+        <svg class="brand-emblem" viewBox="0 0 40 40" width="26" height="26" aria-hidden="true">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1" opacity="0.45" />
+          <path d="M20 6 C24 13, 24 21, 20 28 C16 21, 16 13, 20 6 Z" fill="none" stroke="currentColor" stroke-width="1.2" />
+          <path d="M20 28 C12 24, 9 18, 8 12 C14 14, 18 19, 20 28 Z" fill="none" stroke="currentColor" stroke-width="1.1" opacity="0.8" />
+          <path d="M20 28 C28 24, 31 18, 32 12 C26 14, 22 19, 20 28 Z" fill="none" stroke="currentColor" stroke-width="1.1" opacity="0.8" />
+          <circle cx="20" cy="31" r="1.5" fill="currentColor" />
+        </svg>
+        <span class="brand-name">ऋत</span>
+      </a>
+
+      <nav class="header-controls" aria-label="पठन उपकरणहरू">
+        <a href="index.html#chapters" class="nav-link">सबै अध्याय</a>
+        <div class="font-controls" role="group" aria-label="अक्षरको आकार">
+          <button id="font-dec" class="icon-btn" type="button" title="अक्षर सानो पार्नुहोस्">अ−</button>
+          <button id="font-inc" class="icon-btn" type="button" title="अक्षर ठूलो पार्नुहोस्">अ+</button>
+        </div>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="दीप मोड परिवर्तन गर्नुहोस्">
+          <span class="theme-label">दीप मोड</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container chapter-layout">
+    <!-- बायाँपट्टिको विषय-सूची -->
+    <aside class="toc-sidebar" aria-label="अध्यायको विषय-सूची">
+      <div class="toc-inner">
+        <p class="toc-title">विषय-सूची</p>
+        <nav id="chapter-toc"></nav>
+      </div>
+    </aside>
+
+    <!-- मुख्य लेख -->
+    <article id="chapter-root" class="chapter-article" aria-live="polite">
+      <p class="loading-note">पाण्डुलिपि खुल्दैछ…</p>
+    </article>
+  </main>
+
+  <!-- अघिल्लो / अर्को अध्याय -->
+  <nav class="chapter-pager container narrow" id="chapter-pager" aria-label="अध्याय क्रम"></nav>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-verse" lang="sa">सत्यमेव जयते नानृतम् — मुण्डकोपनिषद् ३.१.६</p>
+      <p class="footer-translation">“सत्यको नै विजय हुन्छ, असत्यको होइन।” — मुण्डकोपनिषद् ३.१.६</p>
+      <p class="footer-note"><a href="index.html">मुख्य अभिलेखमा फर्कनुहोस्</a></p>
+    </div>
+  </footer>
+
+  <script src="chapters/manifest.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
