@@ -1,0 +1,826 @@
+/* ==========================================================================
+   ऋत — नेपाली वैदिक साहित्यिक शैलीपत्र (Devanagari-First Editorial CSS)
+   रङ संयोजन: हातले बनेको नेपाली कागज, मसीको कालो, गेरु, बेसार र तुलसी हरियो
+   ========================================================================== */
+
+:root {
+  --bg: #F7F3EB;
+  --bg-elevated: #EFE9DC;
+  --bg-subtle: #F2ECE0;
+  --ink: #231F1A;
+  --ink-muted: #585045;
+  --ink-faint: #7A7062;
+  --accent: #9E472A;          /* सौम्य गेरु / माटोको रङ */
+  --accent-soft: rgba(158, 71, 42, 0.10);
+  --gold: #966E2E;            /* परिपक्व बेसार / पित्तल */
+  --sage: #445C48;            /* तुलसी हरियो */
+  --border: #DDD4C3;
+  --border-strong: #C8BBA4;
+
+  --font-display: 'Tiro Devanagari Sanskrit', 'Noto Serif Devanagari', Georgia, serif;
+  --font-body: 'Noto Serif Devanagari', Georgia, serif;
+
+  --text-scale: 1;
+  --radius: 3px;
+  --max-width: 1120px;
+  --reading-width: 66ch;
+}
+
+/* रात्रिकालीन 'दीप मोड' (शान्त र आँखालाई आराम दिने) */
+[data-theme="dipa"] {
+  --bg: #191613;
+  --bg-elevated: #221E1A;
+  --bg-subtle: #1F1B17;
+  --ink: #E8E0CE;
+  --ink-muted: #B8AE9C;
+  --ink-faint: #8E8474;
+  --accent: #D37D5A;
+  --accent-soft: rgba(211, 125, 90, 0.13);
+  --gold: #CCA358;
+  --sage: #89A88E;
+  --border: #322C25;
+  --border-strong: #473E35;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: calc(1.06rem * var(--text-scale));
+  line-height: 1.92;          /* देवनागरी मात्राहरूका लागि पर्याप्त खुलापन */
+  letter-spacing: 0;          /* शिरोरेखा नटुटोस् भनेर शून्य राखिएको */
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  color: var(--ink);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--ink);
+  margin-top: 0;
+  letter-spacing: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.narrow {
+  max-width: 780px;
+}
+
+/* पठन प्रगति रेखा */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  z-index: 100;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.08s linear;
+}
+
+/* शीर्ष पट्टी */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.brand-emblem {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.brand-sub {
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  border-left: 1px solid var(--border-strong);
+  padding-left: 0.7rem;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  font-size: 0.94rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.font-controls {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.3rem 0.68rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ==========================================================================
+   गृहपृष्ठ (Home Page)
+   ========================================================================== */
+.hero {
+  padding: 5rem 0 2.4rem;
+  text-align: center;
+}
+
+.hero-inner {
+  max-width: 760px;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+
+.hero-title {
+  font-size: clamp(2.15rem, 4.6vw, 3.25rem);
+  margin-bottom: 1.3rem;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero-lead {
+  font-size: 1.12rem;
+  color: var(--ink-muted);
+  max-width: 56ch;
+  margin: 0 auto 2.2rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.72rem 1.55rem;
+  font-size: 0.98rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #FAF6EE;
+  border: 1px solid var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* कमल-बिन्दु विभाजक */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 380px;
+  margin: 3.5rem auto 0;
+  color: var(--gold);
+}
+
+.ornament-divider span {
+  flex: 1;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+/* अध्याय सूची */
+.section-chapters {
+  padding: 2.5rem 0 4rem;
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.8rem;
+  gap: 1rem;
+}
+
+.section-kicker {
+  font-size: 0.88rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+.section-title {
+  font-size: 1.95rem;
+  margin: 0;
+}
+
+.section-meta {
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chapter-item {
+  border-bottom: 1px solid var(--border);
+  padding: 1.65rem 0;
+  display: grid;
+  grid-template-columns: 88px 1fr auto;
+  gap: 1.25rem;
+  align-items: baseline;
+}
+
+.chapter-num {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  color: var(--gold);
+}
+
+.chapter-card-title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  margin: 0 0 0.4rem;
+}
+
+.chapter-card-title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.chapter-card-title a:hover {
+  color: var(--accent);
+}
+
+.chapter-card-summary {
+  margin: 0 0 0.55rem;
+  color: var(--ink-muted);
+  font-size: 0.98rem;
+}
+
+.chapter-card-meta {
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.chapter-status {
+  font-size: 0.82rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.chapter-status.is-live {
+  border-color: var(--sage);
+  color: var(--sage);
+}
+
+/* उद्देश्य खण्ड */
+.section-purpose {
+  padding: 1rem 0 5rem;
+}
+
+.purpose-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 2.2rem 2.4rem;
+}
+
+.purpose-box h2 {
+  font-size: 1.78rem;
+  margin-bottom: 0.85rem;
+}
+
+.purpose-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   अध्याय पठन लेआउट (Chapter Page)
+   ========================================================================== */
+.chapter-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 3.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  align-items: start;
+}
+
+.toc-sidebar {
+  position: sticky;
+  top: 96px;
+}
+
+.toc-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+#chapter-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+#chapter-toc a {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding-left: 0.75rem;
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+#chapter-toc a:hover,
+#chapter-toc a.is-active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* लेख टाइपोग्राफी */
+.chapter-article {
+  max-width: var(--reading-width);
+}
+
+.chapter-header {
+  padding-bottom: 2rem;
+  margin-bottom: 2.2rem;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.chapter-kicker {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+
+.chapter-title {
+  font-size: clamp(1.95rem, 3.8vw, 2.75rem);
+  margin-bottom: 0.75rem;
+}
+
+.chapter-subtitle {
+  font-size: 1.12rem;
+  color: var(--ink-muted);
+  margin: 0 0 1.2rem;
+}
+
+.chapter-byline {
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.chapter-article h2 {
+  font-size: 1.78rem;
+  margin: 3.1rem 0 1rem;
+  padding-top: 0.4rem;
+  scroll-margin-top: 88px;
+}
+
+.chapter-article h3 {
+  font-size: 1.32rem;
+  margin: 2rem 0 0.65rem;
+  color: var(--accent);
+}
+
+.chapter-article p {
+  margin: 0 0 1.3rem;
+}
+
+/* प्रारम्भिक अनुच्छेदको सौम्य जोड (देवनागरीमा सुरक्षित) */
+.chapter-article p.lead-para {
+  font-size: 1.11em;
+  color: var(--ink);
+}
+
+/* संस्कृत / पाली श्लोक खण्ड */
+.sloka-block {
+  margin: 2.3rem 0;
+  padding: 1.7rem 1.9rem;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  text-align: center;
+}
+
+.sloka-devanagari {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.95;
+  color: var(--ink);
+  margin: 0 0 0.75rem;
+}
+
+.sloka-translation {
+  font-size: 1rem;
+  color: var(--ink-muted);
+  margin: 0 0 0.6rem;
+}
+
+.sloka-source {
+  font-size: 0.86rem;
+  color: var(--gold);
+  margin: 0;
+}
+
+/* शब्द व्युत्पत्ति कार्ड */
+.etymology-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.etymology-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
+  padding: 1.45rem 1.55rem;
+}
+
+.etymology-word {
+  font-family: var(--font-display);
+  font-size: 1.48rem;
+  margin: 0 0 0.25rem;
+}
+
+.etymology-dev {
+  font-size: 0.96rem;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+}
+
+.etymology-root {
+  font-size: 0.93rem;
+  color: var(--ink-muted);
+  margin: 0 0 0.65rem;
+}
+
+.etymology-card p:last-child {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+/* विशेष शोध-टिप्पणी */
+.callout {
+  margin: 2rem 0;
+  padding: 1.4rem 1.65rem;
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--sage);
+}
+
+.callout-label {
+  font-size: 0.86rem;
+  color: var(--sage);
+  font-weight: 600;
+  margin: 0 0 0.45rem;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* ऐतिहासिक समयरेखा */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 2.1rem 0 2.4rem;
+  border-left: 1px solid var(--border-strong);
+  padding-left: 1.75rem;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.95rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -2.07rem;
+  top: 0.52rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+
+.timeline-era {
+  font-size: 0.86rem;
+  color: var(--gold);
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.timeline-heading {
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  margin: 0 0 0.35rem;
+}
+
+.timeline-text {
+  margin: 0;
+  font-size: 0.96rem;
+  color: var(--ink-muted);
+}
+
+/* पुस्तक-शैली तुलनात्मक तालिका */
+.table-wrap {
+  overflow-x: auto;
+  margin: 2rem 0 2.4rem;
+}
+
+.editorial-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.editorial-table thead th {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 400;
+  text-align: left;
+  padding: 0.85rem 0.9rem;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  color: var(--ink);
+}
+
+.editorial-table tbody td {
+  padding: 0.85rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.editorial-table tbody td:first-child {
+  font-weight: 600;
+  color: var(--accent);
+  width: 22%;
+}
+
+.editorial-table tbody tr:last-child td {
+  border-bottom: 2px solid var(--ink);
+}
+
+/* भ्रम-निवारण खण्ड */
+.misconception-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.45rem;
+  margin: 1.8rem 0 2.4rem;
+}
+
+.misconception-item {
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 1.4rem 1.6rem;
+}
+
+.misconception-myth {
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.misconception-truth {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+/* सन्दर्भ ग्रन्थ सूची */
+.references-list {
+  padding-left: 1.4rem;
+  font-size: 0.93rem;
+  color: var(--ink-muted);
+}
+
+.references-list li {
+  margin-bottom: 0.65rem;
+}
+
+/* अघिल्लो / अर्को अध्याय */
+.chapter-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.pager-link {
+  text-decoration: none;
+  color: var(--ink);
+  max-width: 48%;
+}
+
+.pager-dir {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--ink-faint);
+}
+
+.pager-title {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  color: var(--accent);
+}
+
+/* फुटर */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 0;
+  text-align: center;
+  background: var(--bg-subtle);
+}
+
+.footer-verse {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--ink);
+  margin: 0 0 0.35rem;
+}
+
+.footer-translation {
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  margin: 0 0 1rem;
+}
+
+.footer-note {
+  font-size: 0.84rem;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+/* मोबाइल तथा ट्याब्लेट अनुकूलन */
+@media (max-width: 920px) {
+  .chapter-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .toc-sidebar {
+    position: static;
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
+    padding: 1.1rem 1.25rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .brand-sub {
+    display: none;
+  }
+
+  .chapter-item {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .etymology-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .purpose-box {
+    padding: 1.5rem;
+  }
+}
+
+@media print {
+  .site-header, .toc-sidebar, .reading-progress, .chapter-pager {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
